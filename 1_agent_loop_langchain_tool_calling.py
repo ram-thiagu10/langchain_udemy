@@ -1,12 +1,13 @@
 from dotenv import load_dotenv
-
+import os
 load_dotenv()  # Load environment variables from .env file
 from langchain.chat_models import init_chat_model
 from langchain.tools import tool
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from langsmith import traceable
 MAX_ITERATIONS = 8
-MODEL = "qwen3.5:0.8b"
+# MODEL = "qwen3.5:0.8b"
+MODEL = "llama-3.3-70b-versatile"
 
 @tool
 def get_product_price(product:str) -> float:
@@ -28,7 +29,8 @@ def apply_discount(price: float, discount_tier: str) -> float:
 def run_agent(question: str):
     tools = [get_product_price, apply_discount]
     tools_dict = {t.name: t for t in tools}
-    llm = init_chat_model(f"ollama: {MODEL}", temperature=0.0)
+    # llm = init_chat_model(f"ollama: {MODEL}", temperature=0.0)
+    llm = init_chat_model(f"groq:{MODEL}", temperature=0.0)
     llm_with_tools = llm.bind_tools(tools)
     print(f"Question : {question}")
     print("="*100)
@@ -88,5 +90,5 @@ def run_agent(question: str):
 if __name__ == "__main__":
     print("Hello langchain agent (.bind_tools)")
     print()
-    question = "What is the price of a mouse after applying a platinum discount?"
+    question = "What is the price of a keyboard after applying a gold discount?"
     result = run_agent(question)
