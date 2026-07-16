@@ -5,7 +5,7 @@ import ollama
 
 from langsmith import traceable
 MAX_ITERATIONS = 8
-MODEL = "qwen3.5:0.8b"
+MODEL = "qwen3:1.7b"
 # MODEL = "llama-3.3-70b-versatile"
 
 @traceable(run_type = "tool")
